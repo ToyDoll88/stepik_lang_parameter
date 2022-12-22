@@ -11,6 +11,7 @@ def test_check_add_cart_button(browser):
     LOG.info('check availability')
     browser.find_element(By.XPATH, './/i[contains(@class, "icon-ok")]')
     LOG.info('check add-to-cart button')
+    # 3 sec just to watch language really changes
     browser.implicitly_wait(3)
     # totally pointless and weird assertion there
     button = browser.find_elements(
