@@ -30,20 +30,24 @@ def pytest_addoption(parser):
     parser.addoption('--language', action='store', default='ru')
     parser.addoption('--browser_name', action='store', default='chrome',
                      help="Choose browser: chrome or firefox")
+    parser.addoption('--headless', action='store', default=False)
 
 
 @pytest.fixture(scope="function")
 def browser(request):
     LOG.info('start browser')
-    browser_name = request.config.getoption("browser_name")
+    browser_name = request.config.getoption('browser_name')
     language = request.config.getoption('language')
+    headless = request.config.getoption('headless')
     if browser_name == "chrome":
         options = ChromeOptions()
+        options.headless = headless
         options.add_experimental_option('prefs', {
             'intl.accept_languages': language})
         browser = webdriver.Chrome(options=options)
     elif browser_name == "firefox":
         options = FirefoxOptions()
+        options.headless = headless
         options.set_preference("intl.accept_languages", language)
         browser = webdriver.Firefox(options=options)
     else:
